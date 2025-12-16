@@ -39,3 +39,7 @@ function AsistenciaMiercoles(asistencias) {
         }, 1000);
     });
 }
+
+
+// LOG para solucionar un problema del repositorio
+console.log("RRR");
