@@ -1,34 +1,41 @@
-// Callback hell - Transformar a promesas
+// app5.js
 
-// Función que valida la asistencia 
-function AsistenciaLunes(callback) {
+// Función 1: AsistenciaLunes ahora devuelve una Promesa
+function AsistenciaLunes() {
     console.log("Asistencia del lunes");
-    setTimeout(() => {
-        callback(true)
-    }, 1000)
-}
-
-// Función que toma la asistencia del martes
-function AsistenciaMartes(asistencia_lunes, callback) {
-    console.log("Asistencia del martes")
-    setTimeout(() => {
-        callback({dia_lunes : asistencia_lunes, dia_martes : true});
-    }, 1000)
-}
-
-// Función que toma la asistencia del miercoles
-function AsistenciaMiercoles(asistencias, callback) {
-    console.log("Asistencia del miercoles");
-    setTimeout(() => {
-        callback({...asistencias, dia_miercoles : true});
-    }, 1000)
-}
-
-// Se realiza el llamado de la función
-AsistenciaLunes((valor) => {
-    AsistenciaMartes(valor, (objeto) => {
-        AsistenciaMiercoles(objeto, (Final) => {
-            console.log(Final);
-        });
+    return new Promise((resolve, reject) => {
+        // Le dimos 1s de retraso como en el original
+        setTimeout(() => {
+            // En lugar de callback(true), usamos resolve(true)
+            resolve(true); 
+        }, 1000);
     });
-});
+}
+
+// Función 2: Recibe el valor del lunes y devuelve OTRA Promesa
+function AsistenciaMartes(asistencia_lunes) {
+    console.log("Asistencia del martes");
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // Resolvemos con el objeto de asistencias
+            resolve({
+                dia_lunes: asistencia_lunes,
+                dia_martes: true
+            });
+        }, 1000);
+    });
+}
+
+// Función 3: Recibe el objeto y devuelve la Promesa final
+function AsistenciaMiercoles(asistencias) {
+    console.log("Asistencia del miercoles");
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // Actualizamos el objeto con el Spread Operator (...)
+            resolve({
+                ...asistencias,
+                dia_miercoles: true
+            });
+        }, 1000);
+    });
+}
